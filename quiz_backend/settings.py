@@ -118,7 +118,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # --- CORS CONFIGURATION ---
 # Allows your Frontend to talk to this Backend
 CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = ["https://quizappbyenamul.netlify.app/"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://quizappbyenamul.netlify.app"
+    ]
 
 
 # --- DRF & JWT CONFIGURATION ---
