@@ -8,16 +8,11 @@ from pathlib import Path
 import os
 import dj_database_url # pyright: ignore[reportMissingImports]
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# --- SECURITY CONFIGURATION ---
-# 1. Secret Key: Reads from Render environment, or uses a fallback for local dev
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-t(v440q-jldz=i8ug7%ygbgwqw6wklbs+!gg_i_p9i%69hv#^=')
 
-# 2. Debug: False on Render, True on Localhost
-# Render automatically sets the 'RENDER' environment variable
 DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = ['*']
@@ -42,9 +37,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # <--- Critical for serving CSS/JS on Render
+    "whitenoise.middleware.WhiteNoiseMiddleware",  
     'django.contrib.sessions.middleware.SessionMiddleware',
-    "corsheaders.middleware.CorsMiddleware",       # <--- CORS must be here (and only once)
+    "corsheaders.middleware.CorsMiddleware",       
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -72,21 +67,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'quiz_backend.wsgi.application'
 
 
-# --- DATABASE CONFIGURATION ---
-# This logic handles both environments automatically:
-# 1. PRODUCTION (Render): Uses the 'DATABASE_URL' environment variable provided by Render.
-# 2. LOCAL (Your PC): Uses the 'default' fallback string below.
+
 
 DATABASES = {
     'default': dj_database_url.config(
-        # We encoded your password 'Asad@313' to 'Asad%40313' because '@' is a special character in URLs
         default='postgres://postgres:Asad%40313@localhost:5432/quizapp_db',
         conn_max_age=600
     )
 }
 
 
-# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     { 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
     { 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
@@ -95,27 +85,22 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
 
-# --- STATIC FILES (CSS, JavaScript, Images) ---
-# WhiteNoise allows Django to serve its own static files in production
+
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# --- MEDIA FILES (User Uploads) ---
-# Note: On Render (free tier), these files disappear after deployment restarts.
-# For permanent storage, you would eventually need AWS S3 or Cloudinary.
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# --- CORS CONFIGURATION ---
 # Allows your Frontend to talk to this Backend
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
@@ -124,7 +109,6 @@ CORS_ALLOWED_ORIGINS = [
     ]
 
 
-# --- DRF & JWT CONFIGURATION ---
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -141,5 +125,4 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-# Email Configuration (Prints emails to console for development)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

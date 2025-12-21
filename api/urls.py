@@ -41,4 +41,6 @@ urlpatterns = [
     path('history/', UserHistoryView.as_view(), name='user-history'),
     path('user/stats/', UserStatsView.as_view(), name='user-stats'),
     path('user/avatar/', AvatarUpdateView.as_view(), name='user-avatar'),
+
+    
 ]

@@ -293,3 +293,6 @@ class AvatarUpdateView(APIView):
             return Response({"message": "Avatar updated", "avatar": request.build_absolute_uri(profile.avatar.url)}, status=status.HTTP_200_OK)
         
         return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
