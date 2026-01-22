@@ -67,12 +67,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'quiz_backend.wsgi.application'
 
 
+from dotenv import load_dotenv
 
+load_dotenv()
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://postgres:Asad%40313@localhost:5432/quizapp_db',
-        conn_max_age=600
+        # Now it reads 'DATABASE_URL' from your .env file automatically
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
     )
 }
 
